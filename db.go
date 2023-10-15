@@ -16,6 +16,9 @@ type DbInstance struct {
 
 type Store interface {
 	preStart()
+    GetAllPastes() ([]Paste, error)
+    GetPastesByUserName(string) ([]Paste, error)
+    CreatePaste(string, CreatePasteRequest) error
 }
 
 // NewDbInstance : Constructs the connection string from
@@ -65,4 +68,57 @@ func (pq *DbInstance) preStart() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func (pq *DbInstance) GetAllPastes() ([]Paste, error){
+    query := `
+    SELECT * from pastes;
+    `
+
+    rows, err := pq.db.Query(query)
+    if err != nil {
+        return nil, err
+    }
+
+    var pastes []Paste
+    for rows.Next() {
+        var paste Paste
+        rows.Scan(&paste.PasteId, &paste.Username, &paste.Content, &paste.Lang, &paste.CreatedAt)
+        pastes = append(pastes, paste)
+    }
+
+    return pastes, nil
+}
+
+func (pq *DbInstance) GetPastesByUserName(username string) ([]Paste, error){
+    query := `
+    SELECT * from pastes WHERE username = $1;
+    `
+
+    rows, err := pq.db.Query(query, username)
+    if err != nil {
+        return nil, err
+    }
+
+    var pastes []Paste
+    for rows.Next() {
+        var paste Paste
+        rows.Scan(&paste.PasteId, &paste.Username, &paste.Content, &paste.Lang, &paste.CreatedAt)
+        pastes = append(pastes, paste)
+    }
+
+    return pastes, nil
+}
+
+func (pq *DbInstance) CreatePaste(username string, req CreatePasteRequest) error {
+    query := `
+    INSERT INTO pastes (paste_id, username, content, lang) VALUES ($1, $2, $3, $4);
+    `
+
+    _, err := pq.db.Exec(query, RanHash(10), username, req.Content, req.Lang)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

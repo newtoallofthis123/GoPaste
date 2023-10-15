@@ -1,0 +1,8 @@
+<div>
+    {{ range .pastes }}
+        <div>
+            <h2>{{ .CreatedAt }}</h2>
+            <p>{{ .Content }}</p>
+        </div>
+    {{end}}
+</div>

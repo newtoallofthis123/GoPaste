@@ -9,3 +9,15 @@ type Env struct {
 	Listen   string
 }
 
+type Paste struct {
+    PasteId string
+    Username string
+    Content string
+    Lang string
+    CreatedAt string
+}
+
+type CreatePasteRequest struct {
+    Content string
+    Lang string
+}

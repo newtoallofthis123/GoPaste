@@ -1,8 +1,16 @@
 {{ template "base.html" }}
 
 <body>
-    <h1 hx-get="/ping" hx-trigger="" hx-target="#hello">
+    <h1 hx-get="/pastes" hx-trigger="click" hx-target="#hello">
         Hello, world!
     </h1>
     <p id="hello"></p>
+
+    <form>
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Enter Text"></textarea>
+        <input type="text" name="lang" id="lang" placeholder="Enter Language">
+        <button hx-post="/create_paste" hx-trigger="click" hx-target="#result">Submit</button>
+    </form>
+
+    <p id="result"></p>
 </body>
