@@ -10,14 +10,32 @@ type Env struct {
 }
 
 type Paste struct {
-    PasteId string
-    Username string
-    Content string
-    Lang string
-    CreatedAt string
+	PasteId   string
+	Username  string
+	Content   string
+	Lang      string
+	CreatedAt string
 }
 
 type CreatePasteRequest struct {
-    Content string
-    Lang string
+	Content string
+	Lang    string
+}
+
+type CreateUserRequest struct {
+	Username string
+	Email    string
+	Password string
+}
+
+type CreateSessionRequest struct {
+	Username string
+}
+
+type User struct {
+	Username  string
+	Email     string
+	FullName  string
+	Bio       string
+	CreatedAt string
 }

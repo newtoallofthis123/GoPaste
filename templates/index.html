@@ -14,3 +14,9 @@
 
     <p id="result"></p>
 </body>
+
+<script>
+    authRes = fetch("/auth").then(res => {if(res.status !== 200) {
+        window.location.href = "/login"
+    }})
+</script>

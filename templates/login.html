@@ -1,0 +1,29 @@
+{{ template "base.html" }}
+
+<body>
+    <h1>
+        Login
+    </h1>
+    <form>
+        <input type="text" name="username" id="username" placeholder="Enter Username">
+        <input type="password" name="password" id="password" placeholder="Enter Password">
+        <button hx-post="/login_user" hx-trigger="click" hx-target="#result">Submit</button>
+    </form>
+
+    <h1>Signup</h1>
+    <form>
+        <input type="text" name="username" id="username" placeholder="Enter Username">
+        <input type="text" name="email" id="email" placeholder="Enter Email">
+        <input type="password" name="password" id="password" placeholder="Enter Password">
+        <button hx-post="/create_user" hx-trigger="click" hx-target="#result">Submit</button>
+    </form>
+
+    <p id="result"></p>
+</body>
+<script>
+    document.getElementById("result").addEventListener("htmx:afterSwap", function (e) {
+        if(document.getElementById("result").innerHTML === "Logged in!"){
+            window.location.href = "/"
+        }
+    })
+</script>
